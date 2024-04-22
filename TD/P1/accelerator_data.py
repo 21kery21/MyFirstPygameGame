@@ -2,20 +2,20 @@ ACCELERATOR_DATA = [
   {
     #1
     "range": 60,
-    "acceleration": 250,
+    "acceleration": 300,
     "upgrade_cost": 0
   },
   {
     #2
     "range": 90,
-    "acceleration": 350,
-    "upgrade_cost": 250
+    "acceleration": 500,
+    "upgrade_cost": 200
   },
   {
     #3
     "range": 120,
-    "acceleration": 500,
-    "upgrade_cost": 400
+    "acceleration": 700,
+    "upgrade_cost": 300
   },
   {
     #fix one bag

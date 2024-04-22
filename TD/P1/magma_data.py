@@ -11,14 +11,14 @@ MAGMA_DATA = [
     "range": 150,
     "cooldown": 1500,
     "damage": 3,
-    "upgrade_cost": 250
+    "upgrade_cost": 200
   },
   {
     #3
     "range": 190,
     "cooldown": 1800,
     "damage": 4,
-    "upgrade_cost": 400
+    "upgrade_cost": 350
   },
   {
     #fix one bag

@@ -148,6 +148,7 @@ text_font = pg.font.SysFont("Consolas", 24, bold = True)
 upgrd_cost_font = pg.font.SysFont("Consolas", 10, bold = True)
 Ifont = pg.font.SysFont("Consolas", 16, bold = True)
 large_font = pg.font.SysFont("Consolas", 36)
+S_font = pg.font.SysFont("Consolas", 56, bold = True)
 
 #function for outputting text onto the screen
 def draw_text(text, font, text_col, x, y):
@@ -432,7 +433,7 @@ while run:
   if game_over == False:
     #check if the level has been started or not
     if level_started == False:
-      if begin_button.draw(screen):
+      if begin_button.draw(screen) and (show_ez == False or show_av == False or show_df == False):
         show_gm_meny_rect = False
         show_gm_meny_exit = False
         level_started = True
@@ -440,7 +441,7 @@ while run:
       #fast forward option
       world.game_speed = 1
       if fast_forward_button.draw(screen):
-        world.game_speed = 2
+        world.game_speed = 3
       #spawn enemies
       if pg.time.get_ticks() - last_enemy_spawn > SP_CD:
         if world.spawned_enemies - world.spawned_minions < len(world.enemy_list):
@@ -476,7 +477,7 @@ while run:
       world.process_enemies()
 
     #check player time glitching with coins
-    if world.money < 0:
+    if world.money < 0 and world.health > 0:
       world.money += 100
       world.health -= 1
     #fix minus HP visual bag
@@ -486,6 +487,9 @@ while run:
     
 
     #~draw and use buttons####################################################################
+    if show_ez == True and show_av == True and show_df == True:
+      draw_text("!", S_font, "red", c.SCREEN_WIDTH + 180, 282)
+      draw_text("(first select hardness)", upgrd_cost_font, "yellow", c.SCREEN_WIDTH + 40, 663)
     if show_buy_meny_rect == False and show_skills_meny_rect == False and show_swap_meny_rect == False and world.level == 1 and level_started == False:
       if gm_menu_button.draw(screen):
         show_gm_meny_rect = True
@@ -494,7 +498,7 @@ while run:
     if show_gm_meny_rect == True:
       pg.draw.rect(screen, "papayawhip", (c.SCREEN_WIDTH + 7, 100, c.SIDE_PANEL - 14, 300), border_radius=10)
       draw_text("----Easiest----", text_font, "lightseagreen", c.SCREEN_WIDTH + 10, 105)
-      draw_text("Easiest difficulty to familiarize yourself \nwith the basic techniques of \nthe game (without enemy boosts)", upgrd_cost_font, "yellowgreen", c.SCREEN_WIDTH + 12, 130)
+      draw_text("Easiest difficulty to familiarize\nyourself with the basic techniques\nof the game (without enemy boosts)", upgrd_cost_font, "yellowgreen", c.SCREEN_WIDTH + 9, 130)
       draw_text("----Average----", text_font, "lightseagreen", c.SCREEN_WIDTH + 10, 180)
       draw_text("Default difficulty to play (small\nspeed and health enemy boost)", upgrd_cost_font, "yellowgreen", c.SCREEN_WIDTH + 12, 205)
       draw_text("---Difficult---", text_font, "lightseagreen", c.SCREEN_WIDTH + 10, 245)
@@ -521,26 +525,35 @@ while run:
           c.BOSSES_HEALTH_GM_BOOST = 0
           c.BOSS_RANGE = 140
           c.REGENERATION = 0
+          if cheakunits == 0:
+            c.MONEY = r.choice(c.MONEY_L)
+            world.money = c.MONEY
           show_ez = False
           show_av = True
           show_df = True
       if show_av == True:
         if IIselect_button.draw(screen):
           c.ENEMY_SPEED_GM_BOOST = 1.15
-          c.ENEMY_HEALTH_GM_BOOST = 3
+          c.ENEMY_HEALTH_GM_BOOST = 2
           c.BOSSES_HEALTH_GM_BOOST = 25
           c.BOSS_RANGE = 150
           c.REGENERATION = 0
+          if cheakunits == 0:
+            c.MONEY = r.choice(c.MONEY_L) + 300
+            world.money = c.MONEY
           show_ez = True
           show_av = False
           show_df = True
       if show_df == True:
         if IIIselect_button.draw(screen):
           c.ENEMY_SPEED_GM_BOOST = 1.3
-          c.ENEMY_HEALTH_GM_BOOST = 5
-          c.BOSSES_HEALTH_GM_BOOST = 50
+          c.ENEMY_HEALTH_GM_BOOST = 3
+          c.BOSSES_HEALTH_GM_BOOST = 35
           c.BOSS_RANGE = 160
           c.REGENERATION = 0.5
+          if cheakunits == 0:
+            c.MONEY = r.choice(c.MONEY_L) + 500
+            world.money = c.MONEY
           show_ez = True
           show_av = True
           show_df = False
@@ -583,7 +596,7 @@ while run:
     if show_skills_meny_rect == True:
       pg.draw.rect(screen, "papayawhip", (c.SCREEN_WIDTH + 7, 100, c.SIDE_PANEL - 14, 365), border_radius=10)
       draw_text("-Little-Robber-", text_font, "lightseagreen", c.SCREEN_WIDTH + 10, 105)
-      draw_text("Takes 5 HP from\nall enemies\non the map", Ifont, "yellowgreen", c.SCREEN_WIDTH + 63, 135)
+      draw_text("Takes 10 HP from\nall enemies\non the map", Ifont, "yellowgreen", c.SCREEN_WIDTH + 63, 135)
       screen.blit(diamond_image, (c.SCREEN_WIDTH + 19, 130))
       draw_text("20", Ifont, "goldenrod", c.SCREEN_WIDTH + 26, 166)
       draw_text("---SnowStorm---", text_font, "lightseagreen", c.SCREEN_WIDTH + 10, 185)
@@ -608,7 +621,7 @@ while run:
         if world.diamonds >= 20:
           world.diamonds -= 20
           for enemy in enemy_group:
-            enemy.health -= 5
+            enemy.health -= 10
 
       if IIuse_button.draw(screen):
         if world.diamonds >= 15:

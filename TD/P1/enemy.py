@@ -174,17 +174,17 @@ class Enemy(pg.sprite.Sprite):
 
   def update_properties(self):
     if self.HP_boosted == 0:
-      if self.cost <= 12:
+      if self.cost <= 24:
         self.HP_boosted += 1
         self.max_health = self.max_health + c.ENEMY_HEALTH_GM_BOOST
         self.health = self.max_health
         self.speed = self.org_speed * c.ENEMY_SPEED_GM_BOOST
-      elif 15 <= self.cost <= 20:
+      elif 25 <= self.cost <= 30:
         self.HP_boosted += 1
         self.max_health = self.max_health + 5*c.ENEMY_HEALTH_GM_BOOST
         self.health = self.max_health
         self.speed = self.org_speed * c.ENEMY_SPEED_GM_BOOST
-      elif self.cost == 250 or self.cost == 300:
+      elif self.cost == 150 or self.cost == 300:
         self.HP_boosted += 1
         self.max_health = self.max_health + c.BOSSES_HEALTH_GM_BOOST
         self.health = self.max_health
